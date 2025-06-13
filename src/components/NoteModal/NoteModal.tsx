@@ -1,4 +1,5 @@
 import css from "./NoteModal.module.css";
+import NoteForm from "../NoteForm/NoteForm"
 import { createPortal } from "react-dom";
 import { useEffect } from "react";
 
@@ -28,7 +29,7 @@ useEffect(() => {
     
   return createPortal(
     <div className={css.backdrop} role="dialog" aria-modal="true">
-      <div className={css.modal}>Це форма{/* Компонент NoteForm */}</div>
+      <div className={css.modal}>Це форма{<NoteForm/>}</div>
     </div>,
     document.body
   );
