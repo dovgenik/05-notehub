@@ -29,7 +29,7 @@ useEffect(() => {
     
   return createPortal(
     <div className={css.backdrop} role="dialog" aria-modal="true">
-      <div className={css.modal}>Це форма{<NoteForm/>}</div>
+      <div className={css.modal}>{<NoteForm closeForm={onClose}/>}</div>
     </div>,
     document.body
   );

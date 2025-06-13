@@ -31,7 +31,7 @@ export default function App() {
     placeholderData: keepPreviousData,
   });
 
-  const mutation = useMutation({
+  const mutationDel = useMutation({
     mutationFn: (idForDel: string) => deleteNote(idForDel),
     onSuccess: () => {
       queryClients.invalidateQueries({ queryKey: ["noteQueryKey"] });
@@ -52,13 +52,20 @@ export default function App() {
               setCurrentPage={setCurrentPage}
             />
           }
-          {<button className={css.button}  onClick={()=>openModal()} >Create note +</button>}
+          {
+            <button className={css.button} onClick={() => openModal()}>
+              Create note +
+            </button>
+          }
         </header>
       </div>
 
       {data && data.notes.length > 0 && (
-        <NoteList arrayFoList={data.notes} noteDel={mutation.mutate} />
+        <NoteList arrayFoList={data.notes} noteDel={mutationDel.mutate} />
       )}
+      {mutationDel.isPending && <div>Delite note...</div>}
+      {mutationDel.isError && <div>An error delited</div>}
+      
 
       {isModalOpen && <NoteModal onClose={closeModal} />}
     </>

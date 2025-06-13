@@ -5,9 +5,15 @@ export interface Note {
   createdAt: string;
   updatedAt: string;
   tag: string;
-}
+};
 
 export interface HttpResponse {
   notes: Note[];
   totalPages: number;
+};
+
+export interface AddNote {
+  title: string;
+  content: string;
+  tag: string;
 }
