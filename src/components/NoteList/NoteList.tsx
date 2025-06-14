@@ -1,10 +1,10 @@
-import type { Note } from "../../types/note";
+import type { HttpResponse, Note } from "../../types/note";
 import css from "./NoteList.module.css";
-import type { HttpResponse } from "../types/note";
+
 
 interface NoteListProps {
   arrayFoList: Note[];
-  noteDel: (id: string)=>Promise<HttpResponse>;
+  noteDel: (id: string)=> HttpResponse;
 };
 
 export default function NoteList({ arrayFoList, noteDel }: NoteListProps) {
