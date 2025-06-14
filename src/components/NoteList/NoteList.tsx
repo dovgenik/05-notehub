@@ -1,10 +1,11 @@
 import type { HttpResponse, Note } from "../../types/note";
 import css from "./NoteList.module.css";
+import type { UseMutateFunction } from "@tanstack/react-query";
 
 
 interface NoteListProps {
   arrayFoList: Note[];
-  noteDel: (id: string)=> HttpResponse;
+  noteDel: UseMutateFunction<HttpResponse, Error, string, unknown>;
 };
 
 export default function NoteList({ arrayFoList, noteDel }: NoteListProps) {
