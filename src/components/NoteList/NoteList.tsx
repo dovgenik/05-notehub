@@ -1,12 +1,11 @@
-//колекція нотатків
-
 import type { Note } from "../../types/note";
 import css from "./NoteList.module.css";
+import type { HttpResponse } from "../types/note";
 
 interface NoteListProps {
   arrayFoList: Note[];
-  noteDel: (id: string)=>{void};
-}
+  noteDel: (id: string)=>Promise<HttpResponse>;
+};
 
 export default function NoteList({ arrayFoList, noteDel }: NoteListProps) {
   return (

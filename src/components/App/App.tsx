@@ -18,7 +18,7 @@ import Loader from "../Loader/Loader.tsx";
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(null);
+  const [searchQuery, setSearchQuery] = useState<string | null>(null);
 
   
   const queryClients = useQueryClient();
@@ -52,7 +52,7 @@ export default function App() {
           {<SearchBox   setState = {setSearchQuery}/>}
           {
             <Pagination
-              totalPage={data?.totalPages}
+              totalPage={data?.totalPages  ?? 0}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
