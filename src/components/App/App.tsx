@@ -11,10 +11,14 @@ import NoteModal from "../NoteModal/NoteModal.tsx";
 import type { HttpResponse } from "../../types/note.ts";
 import { useState } from "react";
 import Pagination from "../Pagination/Pagination.tsx";
+import SearchBox from "../SearchBox/SearchBox.tsx";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(null);
+
+  
   const queryClients = useQueryClient();
 
   const openModal = () => {
@@ -25,8 +29,8 @@ export default function App() {
   };
 
   const { data, isLoading, isError, isSuccess } = useQuery<HttpResponse>({
-    queryKey: ["noteQueryKey", currentPage],
-    queryFn: () => fetchNotes(currentPage, 12),
+    queryKey: ["noteQueryKey", currentPage, searchQuery],
+    queryFn: () => fetchNotes(currentPage, 12, searchQuery),
     enabled: true,
     placeholderData: keepPreviousData,
   });
@@ -38,13 +42,12 @@ export default function App() {
     },
   });
 
-  console.log(data);
 
   return (
     <>
       <div className={css.app}>
         <header className={css.toolbar}>
-          {/* Компонент SearchBox */}
+          {<SearchBox   setState = {setSearchQuery}/>}
           {
             <Pagination
               totalPage={data?.totalPages}

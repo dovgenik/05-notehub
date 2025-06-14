@@ -50,11 +50,6 @@ export default function NoteForm({ closeForm }: NoteFormProps) {
   });
 
 
-
-
-
-
-
   return (
     <Formik
       initialValues={initialValues}

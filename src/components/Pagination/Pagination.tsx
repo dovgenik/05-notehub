@@ -14,7 +14,7 @@ export default function Pagination({totalPage, currentPage, setCurrentPage}: pag
  
   return (
     <>
-        <ReactPaginate
+    {totalPage>1 && <ReactPaginate
           pageCount={totalPage}
           pageRangeDisplayed={5}
           marginPagesDisplayed={1}
@@ -28,8 +28,8 @@ export default function Pagination({totalPage, currentPage, setCurrentPage}: pag
           renderOnZeroPageCount={null}
           containerClassName={css.pagination}
           activeClassName={css.active}
-        />
-      
+        />}
+        
     </>
   );
 }
