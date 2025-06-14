@@ -33,7 +33,7 @@ interface NoteFormProps {
 export default function NoteForm({ closeForm }: NoteFormProps) {
 
   const handleSubmit = (values: FormValues, actions: any) => {
-    console.log("Submitted values:", values);
+   
 
     mutationAdd.mutate(values);
     actions.resetForm();

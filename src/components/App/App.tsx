@@ -12,6 +12,8 @@ import type { HttpResponse } from "../../types/note.ts";
 import { useState } from "react";
 import Pagination from "../Pagination/Pagination.tsx";
 import SearchBox from "../SearchBox/SearchBox.tsx";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.tsx";
+import Loader from "../Loader/Loader.tsx";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,7 +30,7 @@ export default function App() {
     setIsModalOpen(false);
   };
 
-  const { data, isLoading, isError, isSuccess } = useQuery<HttpResponse>({
+  const { data, isLoading, isError } = useQuery<HttpResponse>({
     queryKey: ["noteQueryKey", currentPage, searchQuery],
     queryFn: () => fetchNotes(currentPage, 12, searchQuery),
     enabled: true,
@@ -66,6 +68,8 @@ export default function App() {
       {data && data.notes.length > 0 && (
         <NoteList arrayFoList={data.notes} noteDel={mutationDel.mutate} />
       )}
+      {isError && <ErrorMessage/>}
+      {isLoading && <Loader/>}
       {mutationDel.isPending && <div>Delite note...</div>}
       {mutationDel.isError && <div>An error delited</div>}
       
