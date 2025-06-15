@@ -22,7 +22,7 @@ export default function App() {
     setIsModalOpen(false);
   };
 
-  const { data, isLoading, isError } = useQuery<HttpResponse>({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["noteQueryKey", currentPage, searchQuery],
     queryFn: () => fetchNotes(currentPage, searchQuery),
     enabled: true,
