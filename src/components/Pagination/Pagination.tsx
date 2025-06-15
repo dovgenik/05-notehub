@@ -2,7 +2,7 @@ import css from "./Pagination.module.css";
 import ReactPaginate from "react-paginate";
  
 
-interface paginationProps  {
+interface PaginationProps  {
     totalPage: number;
     currentPage: number;
     setCurrentPage: (a: number)=>(void)
@@ -10,7 +10,7 @@ interface paginationProps  {
 }
 
 
-export default function Pagination({totalPage, currentPage, setCurrentPage}: paginationProps) {
+export default function Pagination({totalPage, currentPage, setCurrentPage}: PaginationProps) {
  
   return (
     <>

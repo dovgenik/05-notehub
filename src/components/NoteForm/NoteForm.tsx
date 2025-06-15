@@ -1,14 +1,10 @@
 import css from "./NoteForm.module.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import type { FormikHelpers } from "formik";
+
 import * as Yup from "yup";
-import {
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "../../services/noteService";
 import type { AddNote } from "../../types/note.ts";
-
 
 const initialValues = {
   title: "",
@@ -21,7 +17,7 @@ const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
   content: Yup.string().max(500, "Content is too long"),
   tag: Yup.string()
-    .oneOf(VALID_TAGS as readonly string[] )
+    .oneOf(VALID_TAGS as readonly string[])
     .required(),
 });
 
@@ -30,19 +26,20 @@ interface FormValues {
   content: string;
   tag: string;
 }
-
+// textar
 interface NoteFormProps {
   closeForm: () => void;
 }
 
 export default function NoteForm({ closeForm }: NoteFormProps) {
-
-const handleSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
-  
-  mutationAdd.mutate(values, {
-    onSuccess: () => {actions.resetForm(); closeForm();}
-  });
-};
+  const handleSubmit = (
+    values: FormValues,
+    //actions: FormikHelpers<FormValues>
+  ) => {
+    mutationAdd.mutate(values, {
+      //onSuccess: () => {actions.resetForm();}
+    });
+  };
 
   const queryClients = useQueryClient();
 
@@ -50,11 +47,10 @@ const handleSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) =>
     mutationFn: (val: AddNote) => createNote(val),
     onSuccess: () => {
       queryClients.invalidateQueries({ queryKey: ["noteQueryKey"] });
-  
-    
+      
+      closeForm();
     },
   });
-
 
   return (
     <Formik
@@ -76,7 +72,7 @@ const handleSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) =>
               id="content"
               name="content"
               as="textarea"
-              rows="8"
+              rows={8}
               className={css.textarea}
             />
             <ErrorMessage

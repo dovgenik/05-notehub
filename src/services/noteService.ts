@@ -10,7 +10,7 @@ export interface HttpResponse {
 
 
 export async function fetchNotes(page: number, search: string | null): Promise<HttpResponse> {
-                                           //perPage: number,
+ 
   return (                            
     await axios.get<HttpResponse>(
       `https://notehub-public.goit.study/api/notes`,
@@ -29,8 +29,8 @@ export async function fetchNotes(page: number, search: string | null): Promise<H
   ).data;
 }
 
-export async function deleteNote(idNote: number): Promise<HttpResponse> {
-  return ( await axios.delete<HttpResponse>(
+export async function deleteNote(idNote: number): Promise<Note> {
+  return ( await axios.delete<Note>(
     `https://notehub-public.goit.study/api/notes/${idNote}`,
     {
       headers: {
@@ -41,10 +41,10 @@ export async function deleteNote(idNote: number): Promise<HttpResponse> {
   )).data;
 }
 
-export async function createNote(newNote: AddNote): Promise<HttpResponse> {
+export async function createNote(newNote: AddNote): Promise<Note> {
 
 
-return ( await axios.post<HttpResponse>(
+return ( await axios.post<Note>(
     `https://notehub-public.goit.study/api/notes`, newNote,
     {
       headers: {

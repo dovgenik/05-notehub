@@ -20,8 +20,8 @@ export default function NoteList({ notes }: NoteListProps) {
 
   return (
     <>
-      {mutationDel.isPending && <div>Delite note...</div>}
-      {mutationDel.isError && <div>An error delited</div>}
+      {mutationDel.isPending && <div>Delete note...</div>}
+      {mutationDel.isError && <div>An error occurred, please try again</div>}
       <ul className={css.list}>
         {notes.map((el: Note) => (
           <li className={css.listItem} key={el.id}>
