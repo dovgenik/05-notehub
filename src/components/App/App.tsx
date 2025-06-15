@@ -1,27 +1,19 @@
 import css from "./App.module.css";
-import { fetchNotes, deleteNote } from "../../services/noteService.ts";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  keepPreviousData,
-} from "@tanstack/react-query";
+import { fetchNotes } from "../../services/noteService.ts";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import NoteList from "../NoteList/NoteList.tsx";
 import NoteModal from "../NoteModal/NoteModal.tsx";
-import type { HttpResponse } from "../../types/note.ts";
 import { useState } from "react";
 import Pagination from "../Pagination/Pagination.tsx";
 import SearchBox from "../SearchBox/SearchBox.tsx";
 import ErrorMessage from "../ErrorMessage/ErrorMessage.tsx";
 import Loader from "../Loader/Loader.tsx";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
-
-  
-  const queryClients = useQueryClient();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -32,27 +24,27 @@ export default function App() {
 
   const { data, isLoading, isError } = useQuery<HttpResponse>({
     queryKey: ["noteQueryKey", currentPage, searchQuery],
-    queryFn: () => fetchNotes(currentPage, 12, searchQuery),
+    queryFn: () => fetchNotes(currentPage, searchQuery),
     enabled: true,
     placeholderData: keepPreviousData,
   });
 
-  const mutationDel = useMutation({
-    mutationFn: (idForDel: string) => deleteNote(idForDel),
-    onSuccess: () => {
-      queryClients.invalidateQueries({ queryKey: ["noteQueryKey"] });
-    },
-  });
-
+ const noteSearch = useDebouncedCallback(
+  (value: string | null) => {
+    setSearchQuery(value);
+    setCurrentPage(1);
+  },
+  1000
+);
 
   return (
     <>
       <div className={css.app}>
         <header className={css.toolbar}>
-          {<SearchBox   setState = {setSearchQuery}/>}
+          {<SearchBox setState={noteSearch} />}
           {
             <Pagination
-              totalPage={data?.totalPages  ?? 0}
+              totalPage={data?.totalPages ?? 0}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
@@ -65,14 +57,9 @@ export default function App() {
         </header>
       </div>
 
-      {data && data.notes.length > 0 && (
-        <NoteList arrayFoList={data.notes} noteDel={mutationDel.mutate} />
-      )}
-      {isError && <ErrorMessage/>}
-      {isLoading && <Loader/>}
-      {mutationDel.isPending && <div>Delite note...</div>}
-      {mutationDel.isError && <div>An error delited</div>}
-      
+      {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
+      {isError && <ErrorMessage />}
+      {isLoading && <Loader />}
 
       {isModalOpen && <NoteModal onClose={closeModal} />}
     </>

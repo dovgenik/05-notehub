@@ -1,16 +1,24 @@
 import axios from "axios";
 
-import type { HttpResponse, AddNote } from "../types/note";
+import type { AddNote, Note } from "../types/note";
 
-export async function fetchNotes(page: number,perPage: number, search: string | null): Promise<HttpResponse> {
-  return (
+
+export interface HttpResponse {
+  notes: Note[];
+  totalPages: number;
+};
+
+
+export async function fetchNotes(page: number, search: string | null): Promise<HttpResponse> {
+                                           //perPage: number,
+  return (                            
     await axios.get<HttpResponse>(
       `https://notehub-public.goit.study/api/notes`,
       {
         params: {
           search: search,
           page: page,
-          perPage: perPage,
+          perPage: null,
         },
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_NOTEHUB_TOKEN}`,
@@ -21,7 +29,7 @@ export async function fetchNotes(page: number,perPage: number, search: string | 
   ).data;
 }
 
-export async function deleteNote(idNote: string) {
+export async function deleteNote(idNote: number): Promise<HttpResponse> {
   return ( await axios.delete<HttpResponse>(
     `https://notehub-public.goit.study/api/notes/${idNote}`,
     {
@@ -33,7 +41,7 @@ export async function deleteNote(idNote: string) {
   )).data;
 }
 
-export async function createNote(newNote: AddNote) {
+export async function createNote(newNote: AddNote): Promise<HttpResponse> {
 
 
 return ( await axios.post<HttpResponse>(

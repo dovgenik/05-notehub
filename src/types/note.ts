@@ -1,5 +1,5 @@
 export interface Note {
-  id: string;
+  id: number;
   title: string;
   content: string;
   createdAt: string;
@@ -7,10 +7,6 @@ export interface Note {
   tag: string;
 };
 
-export interface HttpResponse {
-  notes: Note[];
-  totalPages: number;
-};
 
 export interface AddNote {
   title: string;
